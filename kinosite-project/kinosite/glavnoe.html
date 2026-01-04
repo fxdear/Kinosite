@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kinosite - Главная</title>
+<link rel="stylesheet" href="css/vse.css" />
+<style>
+    /* Дополнительные стили для карусели */
+    .top10-slider-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 0 40px;
+    }
+    
+    .top10-slider {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        gap: 20px;
+        padding: 20px 0;
+    }
+    
+    .top10-slide {
+        flex: 0 0 calc(20% - 16px);
+        min-width: calc(20% - 16px);
+        transition: transform 0.3s ease;
+    }
+    
+    .top10-slide:hover {
+        transform: translateY(-5px);
+    }
+    
+    .slider-prev, .slider-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s ease;
+    }
+    
+    .slider-prev:hover, .slider-next:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .slider-prev {
+        left: 0;
+    }
+    
+    .slider-next {
+        right: 0;
+    }
+    
+    /* Стили для новостей */
+    .news {
+        padding: 60px 20px;
+        background: var(--primary-bg);
+    }
+    
+    .news h2 {
+        text-align: center;
+        font-size: 36px;
+        margin-bottom: 40px;
+        color: var(--text-primary);
+    }
+    
+    .news-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .news-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+    }
+    
+    .news-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        border-color: var(--accent-blue);
+    }
+    
+    .news-card-image {
+        width: 100%;
+        height: 200px;
+        background-color: var(--secondary-bg);
+    }
+    
+    .news-card h3 {
+        padding: 20px 20px 10px;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+    }
+    
+    .news-card p {
+        padding: 0 20px 20px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin: 0;
+    }
+    
+    @media (max-width: 1200px) {
+        .top10-slide {
+            flex: 0 0 calc(25% - 15px);
+            min-width: calc(25% - 15px);
+        }
+    }
+    
+    @media (max-width: 992px) {
+        .top10-slide {
+            flex: 0 0 calc(33.333% - 14px);
+            min-width: calc(33.333% - 14px);
+        }
+        
+        .news-cards {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .top10-slide {
+            flex: 0 0 calc(50% - 10px);
+            min-width: calc(50% - 10px);
+        }
+        
+        .top10-slider-wrapper {
+            padding: 0 30px;
+        }
+        
+        .news-cards {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .top10-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+        }
+        
+        .news h2 {
+            font-size: 28px;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+<div class="logo">KINOSITE</div>
+<nav>
+<a href="glavnoe.html" class="active">Главная</a>
+<a href="catalog.html">Каталог</a>
+<a href="favorite.html">Избранное</a>
+<input id="navSearchInput" type="text" placeholder="Поиск..." style="margin: 0 15px; padding: 8px 12px; border-radius: 20px; border: 1px solid #374151; background: #1e293b; color: white; width: 200px;">
+</nav>
+
+<!-- Кнопки справа: вход и тема -->
+<div class="header-controls">
+    <!-- Кнопка входа -->
+    <a href="#" id="loginBtn" class="auth-btn">Вход</a>
+
+    <!-- Кнопка выхода -->
+    <a href="#" id="logoutBtn" class="auth-btn" style="display: none;">Выход</a>
+
+    <!-- Профиль пользователя -->
+    <div class="user-profile" id="userProfile" style="display: none;">
+        <div class="user-avatar">U</div>
+        <span>Пользователь</span>
+    </div>
+
+    <!-- Кнопка темы -->
+    <button id="themeToggle">🌙</button>
+</div>
+</header>
+
+<section class="banner-carousel">
+<!-- Баннер 1: Интерстеллар - полноэкранный баннер -->
+<div class="banner active" style="background-image: url('https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg'); background-size: cover; background-position: center center;">
+<div class="banner-text">
+<h1>Межзвездные путешествия</h1>
+<p>Исследуйте границы вселенной с лучшими научно-фантастическими фильмами</p>
+<button onclick="location.href='catalog.html'">Смотреть всё</button>
+</div>
+</div>
+
+<!-- Баннер 2: Начало - полноэкранный баннер -->
+<div class="banner" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg'); background-size: cover; background-position: center center;">
+<div class="banner-text">
+<h1>Реальность под вопросом</h1>
+<p>Самые закрученные сюжеты и неожиданные развязки</p>
+<button onclick="location.href='catalog.html?category=movies'">Смотреть фильмы</button>
+</div>
+</div>
+
+<!-- Баннер 3: Человек-паук: Паутина вселенных - полноэкранный баннер -->
+<div class="banner" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMzI0NmVkMjEtYmY4MS00ZDMxLTlkZmEtMzU4MDQxYTMzMjU2XkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_.jpg'); background-size: cover; background-position: center center;">
+<div class="banner-text">
+<h1>Мультивселенная героев</h1>
+<p>Анимационные шедевры для всех возрастов</p>
+<button onclick="location.href='catalog.html?category=cartoons'">Смотреть мультфильмы</button>
+</div>
+</div>
+
+<!-- Баннер 4: Игра престолов - полноэкранный баннер -->
+<div class="banner" style="background-image: url('https://m.media-amazon.com/images/M/MV5BYTRiNDQwYzAtMzVlZS00NTI5LWJjYjUtMzkwNTUzMWMxZTllXkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg'); background-size: cover; background-position: center center;">
+<div class="banner-text">
+<h1>Эпические саги</h1>
+<p>Сериалы, которые завоевали миллионы сердец по всему миру</p>
+<button onclick="location.href='catalog.html?category=series'">Смотреть сериалы</button>
+</div>
+</div>
+
+<!-- Баннер 5: Дюна - полноэкранный баннер -->
+<div class="banner" style="background-image: url('https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg'); background-size: cover; background-position: center center;">
+<div class="banner-text">
+<h1>Планеты далеких миров</h1>
+<p>Фэнтези и научная фантастика в одном флаконе</p>
+<button onclick="location.href='catalog.html?category=fantasy'">Смотреть фэнтези</button>
+</div>
+</div>
+
+<button class="banner-prev">‹</button>
+<button class="banner-next">›</button>
+</section>
+
+<section class="categories">
+<h2>Категории</h2>
+<div class="category-slider">
+<div class="category-card active" data-category="all">Все</div>
+<div class="category-card" data-category="movies">Фильмы</div>
+<div class="category-card" data-category="series">Сериалы</div>
+<div class="category-card" data-category="drama">Дорамы</div>
+<div class="category-card" data-category="anime">Аниме</div>
+<div class="category-card" data-category="novelty">Новинки</div>
+<div class="category-card" data-category="comedy">Комедии</div>
+<div class="category-card" data-category="fantasy">Фэнтези</div>
+</div>
+</section>
+
+<section class="top10-section">
+<div class="section-header">
+<h2>Топ 10 Сегодня</h2>
+<button class="view-all" onclick="location.href='catalog.html?sort=rating'">Смотреть все</button>
+</div>
+<div class="top10-slider-wrapper">
+<div class="top10-slider" id="top10Slider">
+<!-- Слайды будут сгенерированы скриптом -->
+</div>
+<button class="slider-prev">‹</button>
+<button class="slider-next">›</button>
+</div>
+</section>
+
+<section class="new-releases">
+<div class="section-header">
+<h2>Новинки</h2>
+<button class="view-all" onclick="location.href='catalog.html?category=novelty'">Смотреть все</button>
+</div>
+<div class="catalog-grid" id="newReleasesGrid">
+<!-- Карточки будут сгенерированы скриптом -->
+</div>
+</section>
+
+<section class="recommended">
+<div class="section-header">
+<h2>Рекомендуем к просмотру</h2>
+<button class="view-all" onclick="location.href='catalog.html'">Смотреть все</button>
+</div>
+<div class="catalog-grid" id="recommendedGrid">
+<!-- Карточки будут сгенерированы скриптом -->
+</div>
+</section>
+
+<section class="news">
+<h2>Новости кино</h2>
+<div class="news-cards">
+<div class="news-card">
+    <div class="news-card-image" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_FMjpg_UX1000_.jpg');"></div>
+    <h3>Мстители возвращаются</h3>
+    <p>Новые герои присоединяются к команде в 2025 году. Полный перезапуск франшизы с молодыми актерами.</p>
+</div>
+<div class="news-card">
+    <div class="news-card-image" style="background-image: url('https://m.media-amazon.com/images/M/MV5BMTJiMzgwZTktYzZhZC00YzhhLWEzZDUtMGM2NTE4MzQ4NGFmXkEyXkFqcGdeQWpybA@@._V1_FMjpg_UX1000_.jpg');"></div>
+    <h3>Во все тяжкие: продолжение</h3>
+    <p>Новый сезон культового сериала уже в производстве. Съемки начнутся в начале 2025 года.</p>
+</div>
+<div class="news-card">
+    <div class="news-card-image" style="background-image: url('https://m.media-amazon.com/images/M/MV5BN2FiOWU4YzYtMzZiOS00MzcyLTlkOGEtOTgwZmEwMzAxMzA3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg');"></div>
+    <h3>Новый сезон Ведьмака</h3>
+    <p>Геральт возвращается с новыми приключениями в 2025 году. Четвертый сезон с новыми персонажами.</p>
+</div>
+</div>
+</section>
+
+<footer>
+<p>© 2025 Kinosite. Все права защищены. Лучшая платформа для просмотра фильмов и сериалов</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

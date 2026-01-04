@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kinosite - Каталог</title>
+<link rel="stylesheet" href="css/vse.css" />
+<style>
+    .catalog-header {
+        background: url('images/bannerrs/catalog-bg.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 80px 20px;
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Темный оверлей для лучшей читаемости текста */
+    .catalog-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6); /* Увеличил затемнение для лучшей читаемости */
+        z-index: 1;
+        border-radius: 15px;
+    }
+    
+    /* Фолбэк на случай отсутствия изображения */
+    .catalog-header.no-image {
+        background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    }
+    
+    .catalog-header.no-image::before {
+        background: linear-gradient(135deg, rgba(0, 102, 255, 0.8), rgba(157, 78, 221, 0.8));
+    }
+    
+    .catalog-header-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        padding: 50px 40px;
+        border-radius: 15px;
+        animation: fadeInUp 1s ease-out;
+    }
+    
+    .catalog-title {
+        font-size: 56px;
+        font-weight: bold;
+        margin-bottom: 25px;
+        color: white;
+        text-shadow: 0 3px 15px rgba(0, 0, 0, 0.8);
+        line-height: 1.2;
+    }
+    
+    .catalog-description {
+        font-size: 22px;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.7;
+        max-width: 700px;
+        margin: 0 auto;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+    
+    /* Анимация появления */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Стили для индикатора загрузки */
+    .loading-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 18px;
+        z-index: 3;
+        display: none;
+    }
+    
+    .catalog-header.loading .loading-indicator {
+        display: block;
+    }
+    
+    @media (max-width: 1024px) {
+        .catalog-header {
+            min-height: 350px;
+        }
+        
+        .catalog-title {
+            font-size: 48px;
+        }
+        
+        .catalog-description {
+            font-size: 20px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .catalog-header {
+            padding: 60px 15px;
+            min-height: 300px;
+            border-radius: 12px;
+        }
+        
+        .catalog-header::before {
+            border-radius: 12px;
+        }
+        
+        .catalog-title {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .catalog-description {
+            font-size: 18px;
+            max-width: 500px;
+        }
+        
+        .catalog-header-content {
+            padding: 40px 25px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .catalog-header {
+            padding: 40px 10px;
+            min-height: 250px;
+            border-radius: 10px;
+        }
+        
+        .catalog-header::before {
+            border-radius: 10px;
+        }
+        
+        .catalog-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .catalog-description {
+            font-size: 16px;
+            max-width: 100%;
+        }
+        
+        .catalog-header-content {
+            padding: 30px 20px;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+<div class="logo">KINOSITE</div>
+<nav>
+<a href="glavnoe.html">Главная</a>
+<a href="catalog.html" class="active">Каталог</a>
+<a href="favorite.html">Избранное</a>
+<div class="search-container" style="display:inline-flex;align-items:center;">
+<input id="navSearchInput" type="text" placeholder="Поиск..." style="margin: 0 15px; padding: 8px 12px; border-radius: 20px; border: 1px solid #374151; background: #1e293b; color: white; width: 200px;">
+</div>
+</nav>
+<button id="themeToggle">Темная</button>
+</header>
+
+<section class="catalog">
+<div class="catalog-header">
+<div class="loading-indicator">Загрузка изображения...</div>
+<div class="catalog-header-content">
+<h2 class="catalog-title">Каталог фильмов и сериалов</h2>
+<p class="catalog-description">Откройте для себя мир кино: более 10 000 фильмов, сериалов и дорам</p>
+</div>
+</div>
+
+<div class="filters">
+<div class="filter-group">
+<label>Категория:
+<select id="categoryFilter">
+<option value="all">Все</option>
+<option value="movies">Фильмы</option>
+<option value="series">Сериалы</option>
+<option value="drama">Дорамы</option>
+<option value="anime">Аниме</option>
+<option value="novelty">Новинки</option>
+</select>
+</label>
+</div>
+
+<div class="filter-group">
+<label>Год:
+<select id="yearFilter">
+<option value="all">Все</option>
+</select>
+</label>
+</div>
+
+<div class="filter-group">
+<label>Жанр:
+<select id="genreFilter">
+<option value="all">Все жанры</option>
+<option value="action">Боевик</option>
+<option value="drama">Драма</option>
+<option value="comedy">Комедия</option>
+<option value="thriller">Триллер</option>
+<option value="fantasy">Фэнтези</option>
+<option value="romance">Романтика</option>
+<option value="horror">Ужасы</option>
+</select>
+</label>
+</div>
+
+<div class="filter-group">
+<label>Рейтинг:
+<select id="ratingFilter">
+<option value="all">Любой рейтинг</option>
+<option value="9">9+</option>
+<option value="8">8+</option>
+<option value="7">7+</option>
+<option value="6">6+</option>
+</select>
+</label>
+</div>
+</div>
+
+<div class="sort-options">
+<span>Сортировка:</span>
+<button class="sort-btn active" data-sort="popular">По популярности</button>
+<button class="sort-btn" data-sort="rating">По рейтингу</button>
+<button class="sort-btn" data-sort="new">По новизне</button>
+<button class="sort-btn" data-sort="year">По году</button>
+</div>
+
+<div class="catalog-grid" id="catalogGrid"></div>
+
+<div class="pagination">
+<button class="page-btn active">1</button>
+<button class="page-btn">2</button>
+<button class="page-btn">3</button>
+<button class="page-btn">4</button>
+<button class="page-btn">5</button>
+<span>...</span>
+<button class="page-btn">10</button>
+<button class="next-btn">Следующая →</button>
+</div>
+</section>
+
+<footer>
+<p>© 2025 Kinosite. Все права защищены. Более 10 000 фильмов и сериалов в каталоге</p>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+    // Проверка загрузки изображения
+    document.addEventListener('DOMContentLoaded', function() {
+        const catalogHeader = document.querySelector('.catalog-header');
+        const loadingIndicator = document.querySelector('.loading-indicator');
+        const img = new Image();
+        
+        // Показываем индикатор загрузки
+        catalogHeader.classList.add('loading');
+        
+        img.onload = function() {
+            console.log('Фоновое изображение загружено успешно');
+            
+            // Скрываем индикатор загрузки
+            catalogHeader.classList.remove('loading');
+            
+            // Устанавливаем качественный фон
+            catalogHeader.style.backgroundImage = `url('${img.src}')`;
+            catalogHeader.style.backgroundSize = 'cover';
+            catalogHeader.style.backgroundPosition = 'center center';
+            catalogHeader.style.backgroundRepeat = 'no-repeat';
+            
+            // Убедимся, что текст виден
+            catalogHeader.style.opacity = '1';
+        };
+        
+        img.onerror = function() {
+            console.log('Не удалось загрузить фоновое изображение, используем градиент');
+            
+            // Скрываем индикатор загрузки
+            catalogHeader.classList.remove('loading');
+            
+            // Устанавливаем градиентный фон
+            catalogHeader.classList.add('no-image');
+            catalogHeader.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--accent-purple))';
+            catalogHeader.style.backgroundSize = 'cover';
+            
+            // Показываем пользователю сообщение
+            if (loadingIndicator) {
+                loadingIndicator.textContent = 'Используется градиентный фон (изображение не загружено)';
+                loadingIndicator.style.display = 'block';
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                }, 3000);
+            }
+        };
+        
+        // Путь к локальному изображению - должен совпадать с путем в CSS
+        const imagePath = 'images/bannerrs/catalog-bg.jpg';
+        
+        // Пробуем несколько путей на случай ошибки
+        const possiblePaths = [
+            imagePath,
+            'images/bannerrs/part.jpg',
+            '../images/bannerrs/catalog-bg.jpg',
+            'catalog-bg.jpg'
+        ];
+        
+        // Пробуем загрузить изображение по каждому пути
+        let currentPathIndex = 0;
+        
+        function tryLoadImage() {
+            if (currentPathIndex >= possiblePaths.length) {
+                // Все пути перепробованы
+                img.onerror();
+                return;
+            }
+            
+            const currentPath = possiblePaths[currentPathIndex];
+            console.log('Попытка загрузить изображение по пути:', currentPath);
+            img.src = currentPath + '?t=' + new Date().getTime(); // Добавляем timestamp для предотвращения кэширования
+            
+            currentPathIndex++;
+        }
+        
+        // Начинаем попытки загрузки
+        tryLoadImage();
+        
+        // Если изображение не загрузится в течение 5 секунд, используем градиент
+        const timeoutId = setTimeout(function() {
+            if (!img.complete) {
+                console.log('Изображение не загрузилось в течение 5 секунд');
+                img.onerror();
+            }
+        }, 5000);
+        
+        // Отменяем таймаут если изображение загрузилось
+        img.onload = function() {
+            clearTimeout(timeoutId);
+            catalogHeader.classList.remove('loading');
+            catalogHeader.style.backgroundImage = `url('${img.src}')`;
+            console.log('Изображение успешно загружено по пути:', img.src);
+        };
+    });
+</script>
+</body>
+</html>

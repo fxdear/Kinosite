@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kinosite - Избранное</title>
+<link rel="stylesheet" href="css/vse.css" />
+</head>
+<body>
+<header>
+<div class="logo">KINOSITE</div>
+<nav>
+<a href="glavnoe.html">Главная</a>
+<a href="catalog.html">Каталог</a>
+<a href="favorite.html" class="active">Избранное</a>
+<input id="navSearchInput" type="text" placeholder="Поиск..." style="margin: 0 15px; padding: 8px 12px; border-radius: 20px; border: 1px solid #374151; background: #1e293b; color: white; width: 200px;">
+</nav>
+
+<button id="themeToggle">Темная</button>
+</header>
+
+<section class="catalog">
+<h2>Избранное</h2>
+<div class="catalog-grid" id="favoritesGrid"></div>
+
+<div id="emptyFavorites" style="text-align: center; padding: 50px; display: none;">
+<h3>В избранном пока ничего нет</h3>
+<p>Добавляйте фильмы и сериалы, нажимая на кнопку "Добавить в избранное"</p>
+</div>
+</section>
+
+<footer>
+<p>© 2025 Kinosite. Все права защищены.</p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>

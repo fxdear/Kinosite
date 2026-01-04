@@ -1,0 +1,379 @@
+/* ===== ОСНОВНЫЕ СТИЛИ BIG MOUTH ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-bg: #0c0c0e;
+    --secondary-bg: #1a1a1d;
+    --accent-green: #00ff88;
+    --accent-blue: #0066ff;
+    --text-primary: #ffffff;
+    --text-secondary: #d1d1d1;
+    --text-muted: #888888;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ===== ШАПКА ===== */
+header {
+    background: rgba(12, 12, 14, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+header img {
+    height: 50px;
+    filter: brightness(0) invert(1);
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 0;
+}
+
+nav a:hover {
+    color: var(--text-primary);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-green);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* ===== КНОПКА НАЗАД ===== */
+.back-btn {
+    background: linear-gradient(135deg, #0066ff, #00d4ff);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+}
+
+/* ===== ГЛАВНЫЙ БАННЕР ===== */
+.glavnoe {
+    background: url('../media/posters/w1500_50643955.jpg') center/cover no-repeat;
+    text-align: center;
+    padding: 180px 20px;
+    min-height: 100vh;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.glavnoe::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(12, 12, 14, 0.7);
+}
+
+.glavnoe h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: white;
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+    position: relative;
+    z-index: 2;
+}
+
+.glavnoe p {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    font-size: 18px;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== КНОПКИ ===== */
+.trailer {
+    background: linear-gradient(135deg, #0066ff, #00d4ff);
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    margin: 15px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.trailer:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 102, 255, 0.3);
+}
+
+/* ===== СЮЖЕТ ===== */
+.story {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #0c0c0e 0%, #1a1a1d 100%);
+}
+
+.story h2 {
+    color: var(--text-primary);
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.story p {
+    max-width: 850px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    font-size: 18px;
+    line-height: 1.8;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== ПЕРСОНАЖИ ===== */
+.person {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: var(--primary-bg);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.person h2 {
+    width: 100%;
+    color: var(--text-primary);
+    font-size: 42px;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ===== КАРТОЧКИ ПЕРСОНАЖЕЙ ===== */
+.card {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #1a1a1a, #222222);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    filter: brightness(80%);
+}
+
+.card:hover img {
+    transform: scale(1.1);
+    filter: brightness(100%);
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-content {
+    transform: translateY(0);
+}
+
+.card h3 {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+    border-color: var(--accent-green);
+}
+
+/* ===== ГАЛЕРЕЯ ===== */
+.album {
+    text-align: center;
+    padding: 120px 20px 60px;
+    background: linear-gradient(135deg, #0c0c0e, #1a1a1d);
+}
+
+.album h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery .photo {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    background: var(--secondary-bg);
+}
+
+.gallery .photo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 255, 136, 0.2);
+}
+
+.gallery .photo img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery .photo:hover img {
+    transform: scale(1.05);
+}
+
+/* ===== ФУТЕР ===== */
+footer {
+    background: var(--secondary-bg);
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+}
+
+/* ===== ВИДЕО БЛОК ===== */
+#trailer-block {
+    margin-top: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 2;
+}
+
+#trailer-block video {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 15px;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .glavnoe {
+        padding: 150px 20px;
+    }
+    
+    .glavnoe h1 {
+        font-size: 36px;
+    }
+    
+    .story h2 {
+        font-size: 32px;
+    }
+    
+    .person h2 {
+        font-size: 32px;
+    }
+    
+    .gallery {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 300px;
+    }
+}
